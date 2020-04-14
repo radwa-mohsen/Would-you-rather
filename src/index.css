@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.menu-btn {
+  width: auto !important;
+  border-bottom: 2px solid transparent;
+}
+
+.menu-btn:hover {
+  color: cornflowerblue;
+  border-bottom: 2px solid cornflowerblue;
+}
