@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Avatar from "@material-ui/core/Avatar";
 import { setAuthedUser } from "../actions/authedUser";
+import { Redirect } from "react-router-dom";
 
 const ReactReduxLogo = require("../images/React-Redux.jpeg");
 const useStyles = makeStyles({
@@ -37,7 +38,8 @@ const useStyles = makeStyles({
 function LogIn(props) {
   console.log("ta3ala nshof", props);
   const classes = useStyles();
-  const { users, dispatch } = props;
+  const { users, authedUser, dispatch } = props;
+  console.log("authedUser:", authedUser);
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),
@@ -54,6 +56,9 @@ function LogIn(props) {
       alert("please select user to login");
     }
   };
+  if (authedUser) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container maxWidth="xs">
       <Box mt={6}>
@@ -131,9 +136,10 @@ function LogIn(props) {
   );
 }
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ users, authedUser }) {
   return {
     users,
+    authedUser,
   };
 }
 export default connect(mapStateToProps)(LogIn);

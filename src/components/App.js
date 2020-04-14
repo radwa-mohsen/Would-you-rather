@@ -19,7 +19,7 @@ class App extends Component {
           {this.props.loading ? null : (
             <div>
               <Nav />
-              <Route path="/" exact component={LogIn} />
+              <Route path="/login" exact component={LogIn} />
             </div>
           )}
         </Fragment>
