@@ -5,6 +5,8 @@ import { handleInitialData } from "../actions/shared";
 import LoadingBar from "react-redux-loading";
 import LogIn from "./LogIn"
 import Nav from "./Nav"
+import Home from "./Home"
+
 
 class App extends Component {
   componentDidMount() {
@@ -20,6 +22,7 @@ class App extends Component {
             <div>
               <Nav />
               <Route path="/login" exact component={LogIn} />
+              <Route path="/" exact component={Home} />
               
             </div>
           )}
