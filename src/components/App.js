@@ -20,6 +20,7 @@ class App extends Component {
             <div>
               <Nav />
               <Route path="/login" exact component={LogIn} />
+              
             </div>
           )}
         </Fragment>
