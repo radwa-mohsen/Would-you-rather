@@ -30,6 +30,8 @@ const useStyles = makeStyles({
   },
   selectUser: {
     justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 function LogIn(props) {
@@ -41,8 +43,16 @@ function LogIn(props) {
     tylermcginnis: require("../images/tyler.jpg"),
     johndoe: require("../images/dan.jpg"),
   };
-  const updateLoggedUser = (newValue) => {
-    dispatch(setAuthedUser(newValue.id));
+  let chosedUser = null;
+  const updateChosedUser = (newValue) => {
+    chosedUser = newValue;
+  };
+  const updateLoggedUser = () => {
+    if (chosedUser !== null) {
+      dispatch(setAuthedUser(chosedUser.id));
+    } else {
+      alert("please select user to login");
+    }
   };
   return (
     <Container maxWidth="xs">
@@ -101,8 +111,18 @@ function LogIn(props) {
                     variant="outlined"
                   />
                 )}
-                onChange={(e, newValue) => updateLoggedUser(newValue)}
+                onChange={(e, newValue) => updateChosedUser(newValue)}
               />
+              <Box mt={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={updateLoggedUser}
+                >
+                  LogIn
+                </Button>
+              </Box>
             </CardActions>
           </Box>
         </Card>
