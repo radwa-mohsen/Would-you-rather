@@ -9,20 +9,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+//material ui
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
-import { Redirect } from "react-router-dom";
-import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider";
+import Avatar from "@material-ui/core/Avatar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,10 +60,16 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: "100%",
+  },
+  container: {
+    paddingLeft: 100,
+    paddingRight: 100,
   },
   card: {
     minWidth: 275,
+    marginTop: 12,
+    marginBottom: 12,
   },
   bullet: {
     display: "inline-block",
@@ -73,8 +82,28 @@ const useStyles = makeStyles((theme) => ({
   pos: {
     marginBottom: 12,
   },
+  large: {
+    width: theme.spacing(11),
+    height: theme.spacing(11),
+    margin: "auto",
+  },
+  pollBtn: {
+    width: "100%",
+  },
 }));
 const Home = (props) => {
+  const { questions, users, user, authedUser, unansweredQuestions } = props;
+  const avatars = {
+    sarahedo: require("../images/sarah.jpg"),
+    tylermcginnis: require("../images/tyler.jpg"),
+    johndoe: require("../images/dan.jpg"),
+  };
+  const UnansweredQ = Object.keys(questions)
+    .filter((key) => unansweredQuestions.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = questions[key];
+      return obj;
+    }, {});
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -87,13 +116,13 @@ const Home = (props) => {
     setValue(index);
   };
 
-  if (props.authedUser === null) {
+  if (authedUser === null) {
     return <Redirect to="/login" />;
   }
 
   return (
     <React.Fragment>
-      <Container maxWidth="xs">
+      <Container maxWidth="md" fixed className={classes.container}>
         <Box className={`${classes.root} table-border`} mt={3}>
           <AppBar position="static" color="default">
             <Tabs
@@ -120,20 +149,66 @@ const Home = (props) => {
               children={
                 <React.Fragment>
                   <Box>
-                    <Card className={classes.card}>
-                      <CardContent>
-                        <Typography
-                          className={classes.title}
-                          color="textSecondary"
-                          gutterBottom
-                        >
-                          questions cards
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">poll</Button>
-                      </CardActions>
-                    </Card>
+                    {Object.keys(UnansweredQ).map((unAnswerId) => {
+                      const questionUser = users[questions[unAnswerId].author];
+                      return (
+                        <Card className={classes.card} key={unAnswerId}>
+                          <CardHeader
+                            className="card-Header"
+                            title={`${questionUser.name.substr(
+                              0,
+                              questionUser.name.indexOf(" ")
+                            )} Says:`}
+                            titleTypographyProps={{
+                              variant: "h6",
+                              color: "primary",
+                            }}
+                          />
+                          <CardContent>
+                            <Box style={{ display: "flex" }} height="100%">
+                              <Box
+                                textAlign="center"
+                                style={{ width: "19%" }}
+                                m={1}
+                              >
+                                <Avatar
+                                  alt={questionUser.name}
+                                  src={avatars[questionUser.id]}
+                                  className={classes.large}
+                                />
+                              </Box>
+                              <Box mx={1}>
+                                <Divider orientation="vertical" />
+                              </Box>
+                              <Box style={{ width: "80%" }} m={1}>
+                                <Box ml={1.5} mb={2.5}>
+                                  <Typography variant="h5" gutterBottom>
+                                    Would You Rather
+                                  </Typography>
+                                  <Typography
+                                    gutterBottom
+                                    color="textSecondary"
+                                  >
+                                    {`..... ${questions[unAnswerId].optionOne.text} .....`}
+                                  </Typography>
+                                </Box>
+
+                                <CardActions>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    className={classes.pollBtn}
+                                  >
+                                    poll
+                                  </Button>
+                                </CardActions>
+                              </Box>
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </Box>
                 </React.Fragment>
               }
@@ -146,20 +221,66 @@ const Home = (props) => {
               children={
                 <React.Fragment>
                   <Box>
-                    <Card className={classes.card}>
-                      <CardContent>
-                        <Typography
-                          className={classes.title}
-                          color="textSecondary"
-                          gutterBottom
-                        >
-                          questions cards
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">poll</Button>
-                      </CardActions>
-                    </Card>
+                    {Object.keys(user.answers).map((answerId) => {
+                      const questionUser = users[questions[answerId].author];
+                      return (
+                        <Card className={classes.card} key={answerId}>
+                          <CardHeader
+                            className="card-Header"
+                            title={`${questionUser.name.substr(
+                              0,
+                              questionUser.name.indexOf(" ")
+                            )} Says:`}
+                            titleTypographyProps={{
+                              variant: "h6",
+                              color: "primary",
+                            }}
+                          />
+                          <CardContent>
+                            <Box style={{ display: "flex" }} height="100%">
+                              <Box
+                                textAlign="center"
+                                style={{ width: "19%" }}
+                                m={1}
+                              >
+                                <Avatar
+                                  alt={questionUser.name}
+                                  src={avatars[questionUser.id]}
+                                  className={classes.large}
+                                />
+                              </Box>
+                              <Box mx={1}>
+                                <Divider orientation="vertical" />
+                              </Box>
+                              <Box style={{ width: "80%" }} m={1}>
+                                <Box ml={1.5} mb={2.5}>
+                                  <Typography variant="h5" gutterBottom>
+                                    Would You Rather
+                                  </Typography>
+                                  <Typography
+                                    gutterBottom
+                                    color="textSecondary"
+                                  >
+                                    {`..... ${questions[answerId].optionOne.text} .....`}
+                                  </Typography>
+                                </Box>
+
+                                <CardActions>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    className={classes.pollBtn}
+                                  >
+                                    poll
+                                  </Button>
+                                </CardActions>
+                              </Box>
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </Box>
                 </React.Fragment>
               }
@@ -171,10 +292,31 @@ const Home = (props) => {
   );
 };
 function mapStateToProps({ users, questions, authedUser }) {
+  let usersInfo = {};
+  for (const userId in users) {
+    usersInfo = {
+      ...usersInfo,
+      [userId]: (({ name, avatarURL, id, answers }) => ({
+        name,
+        avatarURL,
+        id,
+        answers,
+      }))(users[userId]),
+    };
+  }
+  const unansweredQuestions = Object.keys(questions)
+    .filter(
+      (id) =>
+        !questions[id].optionOne.votes.includes(authedUser) &&
+        !questions[id].optionTwo.votes.includes(authedUser)
+    )
+    .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
   return {
     user: authedUser ? users[authedUser] : null,
     questions,
+    users: usersInfo,
     authedUser,
+    unansweredQuestions,
   };
 }
 export default connect(mapStateToProps)(Home);
