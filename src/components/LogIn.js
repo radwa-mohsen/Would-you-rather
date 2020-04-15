@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { setAuthedUser } from "../actions/authedUser";
+//material ui
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -13,8 +16,6 @@ import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Avatar from "@material-ui/core/Avatar";
-import { setAuthedUser } from "../actions/authedUser";
-import { Redirect } from "react-router-dom";
 
 const ReactReduxLogo = require("../images/React-Redux.jpeg");
 const useStyles = makeStyles({
@@ -36,10 +37,8 @@ const useStyles = makeStyles({
   },
 });
 function LogIn(props) {
-  console.log("ta3ala nshof", props);
   const classes = useStyles();
   const { users, authedUser, dispatch } = props;
-  console.log("authedUser:", authedUser);
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),

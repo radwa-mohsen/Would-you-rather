@@ -6,6 +6,7 @@ import LoadingBar from "react-redux-loading";
 import LogIn from "./LogIn"
 import Nav from "./Nav"
 import Home from "./Home"
+import LeaderBoard from "./LeaderBoard"
 
 
 class App extends Component {
@@ -23,7 +24,7 @@ class App extends Component {
               <Nav />
               <Route path="/login" exact component={LogIn} />
               <Route path="/" exact component={Home} />
-              
+              <Route path="/leaderboard" exact component={LeaderBoard} />
             </div>
           )}
         </Fragment>

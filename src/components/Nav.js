@@ -8,6 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { Typography, Button } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { setAuthedUser } from "../actions/authedUser";
+import { NavLink } from "react-router-dom";
 
 class Nav extends Component {
   render() {
@@ -38,15 +39,21 @@ class Nav extends Component {
         >
           <List component="nav" style={flexContainer}>
             <ListItem button className="menu-btn">
-              <ListItemText primary="Home" autoFocus className="menu-item" />
+              <NavLink to="/" exact className="nav-link">
+                <ListItemText primary="Home" autoFocus className="menu-item" />
+              </NavLink>
             </ListItem>
             <Divider orientation="vertical" flexItem />
             <ListItem button className="menu-btn">
-              <ListItemText primary="New Question" />
+              <NavLink to="/" exact className="nav-link">
+                <ListItemText primary="New Question" />
+              </NavLink>
             </ListItem>
             <Divider orientation="vertical" flexItem />
             <ListItem button className="menu-btn">
-              <ListItemText primary="Leader Board" />
+              <NavLink to="/leaderboard" exact className="nav-link">
+                <ListItemText primary="Leader Board" />
+              </NavLink>
             </ListItem>
           </List>
           <Divider light />

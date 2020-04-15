@@ -26,3 +26,13 @@ code {
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 4px;
 }
+
+.nav-link {
+  text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-Header{
+  background-color: #f5f5f5;
+}
