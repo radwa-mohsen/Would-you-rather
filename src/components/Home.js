@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { useState } from "react";
 //material ui
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -21,7 +22,6 @@ import Avatar from "@material-ui/core/Avatar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <Typography
       component="div"
@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Home = (props) => {
   const { questions, users, user, authedUser, unansweredQuestions } = props;
+  const [questionId, setQuestionId] = useState(null);
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),
@@ -99,7 +100,6 @@ const Home = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -108,8 +108,17 @@ const Home = (props) => {
     setValue(index);
   };
 
+  const handlePoll = (id) => {
+    console.log("ahoooooo", id);
+    setQuestionId(id);
+  };
+
   if (authedUser === null) {
     return <Redirect to="/login" />;
+  }
+
+  if (questionId) {
+    return <Redirect to={`questions/${questionId}`} />;
   }
 
   return (
@@ -191,6 +200,7 @@ const Home = (props) => {
                                     size="small"
                                     color="primary"
                                     className={classes.pollBtn}
+                                    onClick={() => handlePoll(unAnswerId)}
                                   >
                                     poll
                                   </Button>
@@ -263,6 +273,7 @@ const Home = (props) => {
                                     size="small"
                                     color="primary"
                                     className={classes.pollBtn}
+                                    onClick={() => handlePoll(answerId)}
                                   >
                                     poll
                                   </Button>
