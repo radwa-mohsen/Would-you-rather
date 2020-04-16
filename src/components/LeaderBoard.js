@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 //material ui
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -34,14 +35,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LeaderBoard = (props) => {
-  const { users } = props;
-  console.log(users);
+  const { users ,authedUser} = props;
   const classes = useStyles();
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),
     johndoe: require("../images/dan.jpg"),
   };
+  
+  if (authedUser === null) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <Container maxWidth="md" className={classes.container}>
       {Object.keys(users).map((userId) => (
@@ -122,9 +127,10 @@ const LeaderBoard = (props) => {
   );
 };
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ users ,authedUser}) {
   return {
     users,
+    authedUser
   };
 }
 

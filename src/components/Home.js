@@ -1,11 +1,3 @@
-// import Divider from "@material-ui/core/Divider";
-// import List from "@material-ui/core/List";
-// import ListItem from "@material-ui/core/ListItem";
-// import ListItemText from "@material-ui/core/ListItemText";
-// import Avatar from "@material-ui/core/Avatar";
-// import { Typography, Button } from "@material-ui/core";
-// import { setAuthedUser } from "../actions/authedUser";
-
 import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
