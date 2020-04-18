@@ -165,7 +165,6 @@ export function _saveQuestion (question) {
         ...questions,
         [formattedQuestion.id]: formattedQuestion
       }
-      
       users = {
         ...users,
         [authedUser]: {

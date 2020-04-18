@@ -19,6 +19,7 @@ import Button from "@material-ui/core/Button";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
+import { Link, withRouter, NavLink } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,11 +82,11 @@ const useStyles = makeStyles((theme) => ({
   },
   pollBtn: {
     width: "100%",
+    textDecoration:'none'
   },
 }));
 const Home = (props) => {
   const { questions, users, user, authedUser, unansweredQuestions } = props;
-  const [questionId, setQuestionId] = useState(null);
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),
@@ -108,17 +109,8 @@ const Home = (props) => {
     setValue(index);
   };
 
-  const handlePoll = (id) => {
-    console.log("ahoooooo", id);
-    setQuestionId(id);
-  };
-
   if (authedUser === null) {
     return <Redirect to="/login" />;
-  }
-
-  if (questionId) {
-    return <Redirect to={`questions/${questionId}`} />;
   }
 
   return (
@@ -195,15 +187,16 @@ const Home = (props) => {
                                 </Box>
 
                                 <CardActions>
-                                  <Button
-                                    variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                    className={classes.pollBtn}
-                                    onClick={() => handlePoll(unAnswerId)}
-                                  >
-                                    poll
-                                  </Button>
+                                  <NavLink to={`questions/${unAnswerId}`} className={classes.pollBtn} >
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      color="primary"
+                                      className={classes.pollBtn}
+                                    >
+                                      poll
+                                    </Button>
+                                  </NavLink>
                                 </CardActions>
                               </Box>
                             </Box>
@@ -266,17 +259,17 @@ const Home = (props) => {
                                     {`..... ${questions[answerId].optionOne.text} .....`}
                                   </Typography>
                                 </Box>
-
                                 <CardActions>
-                                  <Button
-                                    variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                    className={classes.pollBtn}
-                                    onClick={() => handlePoll(answerId)}
-                                  >
-                                    poll
-                                  </Button>
+                                  <Link to={`questions/${answerId}`} className={classes.pollBtn}>
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      color="primary"
+                                      className={classes.pollBtn}
+                                    >
+                                      poll
+                                    </Button>
+                                  </Link>
                                 </CardActions>
                               </Box>
                             </Box>
