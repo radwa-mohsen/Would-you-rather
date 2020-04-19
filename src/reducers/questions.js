@@ -17,13 +17,16 @@ export default function questions(state = {}, action) {
         [action.question.id]: action.question,
       };
     case SAVE_ANSWER:
+      const { authedUser, qid, answer } = action;
+
       return {
         ...state,
-        qid: {
-          ...state[action.qid],
-          [action.answer]: state[action.qid][action.answer].votes.push(
-            action.authedUser
-          ),
+        [qid]: {
+          ...state[qid],
+          [answer]: {
+            ...state[qid][answer],
+            votes: state[qid][answer].votes.concat([authedUser]),
+          },
         },
       };
     default:

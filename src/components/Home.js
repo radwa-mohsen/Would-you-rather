@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { useState } from "react";
 //material ui
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -19,7 +18,7 @@ import Button from "@material-ui/core/Button";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
-import { Link, withRouter, NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

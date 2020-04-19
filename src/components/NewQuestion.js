@@ -58,9 +58,6 @@ const NewQuestion = (props) => {
       setSubmit(true);
     }
   };
-  if (authedUser === null) {
-    return <Redirect to="/login" />;
-  }
 
   if (submit) {
     return <Redirect to="/" />;

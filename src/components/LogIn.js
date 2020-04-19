@@ -37,8 +37,9 @@ const useStyles = makeStyles({
   },
 });
 function LogIn(props) {
+  console.log(props);
   const classes = useStyles();
-  const { users, authedUser, dispatch } = props;
+  const { users, authedUser, dispatch, location } = props;
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
     tylermcginnis: require("../images/tyler.jpg"),
@@ -55,9 +56,14 @@ function LogIn(props) {
       alert("please select user to login");
     }
   };
-  if (authedUser) {
-    return <Redirect to="/" />;
+  const { from } = location.state || { from: { pathname: "/" } };
+  if (authedUser !== null) {
+    return <Redirect to={from} />;
   }
+
+  // if (authedUser) {
+  //   return <Redirect to="/" />;
+  // }
   return (
     <Container maxWidth="xs">
       <Box mt={6}>

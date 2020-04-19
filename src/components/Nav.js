@@ -45,7 +45,7 @@ class Nav extends Component {
             </ListItem>
             <Divider orientation="vertical" flexItem />
             <ListItem button className="menu-btn">
-              <NavLink to="/newquestion" exact className="nav-link">
+              <NavLink to="/add" exact className="nav-link">
                 <ListItemText primary="New Question" />
               </NavLink>
             </ListItem>

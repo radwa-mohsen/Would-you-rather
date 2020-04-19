@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { useState } from "react";
-import { handleSaveAnswer } from "../actions/questions"
+import { handleSaveAnswer } from "../actions/questions";
+import Error from "./Error";
 //material ui
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -42,7 +42,22 @@ const useStyles = makeStyles((theme) => ({
 const Question = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
-  const { question, authedUser, id, user, questionCreator ,dispatch} = props;
+  const {
+    question,
+    authedUser,
+    id,
+    user,
+    questionCreator,
+    isError,
+    dispatch,
+  } = props;
+  if (isError) {
+    return (
+      <div>
+        <Error />
+      </div>
+    );
+  }
   const answeredQ = authedUser && user.answers[id];
   const avatars = {
     sarahedo: require("../images/sarah.jpg"),
@@ -62,15 +77,12 @@ const Question = (props) => {
   const handleSubmit = () => {
     if (value === "") {
       alert("Please choose an option to submit your answer");
-    }else{
-dispatch(handleSaveAnswer({authedUser,qid:question.id,answer:value}))
+    } else {
+      dispatch(
+        handleSaveAnswer({ authedUser, qid: question.id, answer: value })
+      );
     }
-
-
   };
-  if (authedUser === null) {
-    return <Redirect to="/login" />;
-  }
   const totalVotes =
     question.optionOne.votes.length + question.optionTwo.votes.length;
   const optionOneVotes = question.optionOne.votes.length;
@@ -236,12 +248,21 @@ dispatch(handleSaveAnswer({authedUser,qid:question.id,answer:value}))
 
 function mapStateToProps({ authedUser, users, questions }, props) {
   const { id } = props.match.params;
+  if (questions[props.match.params.id] === undefined) {
+    const isError = true;
+    return {
+      isError,
+    };
+  }
+  const isError = false;
+
   return {
     id,
     authedUser,
     question: questions[id],
     user: users[authedUser],
     questionCreator: authedUser && users[questions[id].author],
+    isError,
   };
 }
 
